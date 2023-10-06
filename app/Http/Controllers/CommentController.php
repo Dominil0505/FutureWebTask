@@ -16,6 +16,6 @@ class CommentController extends Controller
             return view('comments', ['allComments' => $comments]);
         }
 
-        return redirect('Nincs hozzáférésed az odalhoz!');
+        return redirect('accessdenied');
     }
 }

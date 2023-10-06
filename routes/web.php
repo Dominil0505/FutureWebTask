@@ -29,6 +29,11 @@ Route::get('logout', [UserController::class, 'logout']); // logout request
 Route::get('users', [UsersPageController::class, 'index']); // users page
 
 Route::get('posts', [PostController::class, 'index']); // posts page
-Route::get('createPost', [ PostController::class, 'create']); //post create page
+Route::get('createPost', [ PostController::class, 'createPage']); //post create page
+Route::post('createPost', [PostController::class, 'create']); // create post
 
 Route::get('comments', [CommentController::class, 'index']); // comments page
+
+Route::get('accessdenied', function(){
+    return view('accesssdenied');
+});
