@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,17 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('register');
-});
+Route::get('/', [UserController::class, 'register']); // register page
 
-Route::get('login', [UserController::class, 'login']);
+Route::get('login', [UserController::class, 'login']); // login page
 
-Route::post('postLogin', [UserController::class, 'postLogin']);
-Route::post('postRegister', [UserController::class, 'postRegister']);
+Route::post('postLogin', [UserController::class, 'postLogin']); // post login request
+Route::post('postRegister', [UserController::class, 'postRegister']); //post register request
 
-Route::get('logout', [UserController::class, 'logout']);
+Route::get('logout', [UserController::class, 'logout']); // logout request
 
-Route::get('users', [UserController::class, 'users']);
+Route::get('users', [UsersPageController::class, 'index']); // users page
 
-//Route::get();
+Route::get('posts', [PostController::class, 'index']); // posts page
+Route::get('createPost', [ PostController::class, 'create']); //post create page
+
+Route::get('comments', [CommentController::class, 'index']); // comments page

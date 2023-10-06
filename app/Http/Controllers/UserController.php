@@ -10,13 +10,18 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    //login
+    //login page
     function login(){
         return view('login');
     }
 
+    // register page
+    function register(){
+        return view('register');
+    }
+
     // login post
-    public function postLogin(Request $request){
+    function postLogin(Request $request){
 
         $request->validate([
             'email' => 'required',
@@ -34,16 +39,15 @@ class UserController extends Controller
     }
 
     // handle user logout
-    public function logout(){
+    function logout(){
         Session::flush();
         Auth::logout();
 
         return redirect('login');
     }
 
-
     // register post
-    public function postRegister(Request $request)
+    function postRegister(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -53,6 +57,7 @@ class UserController extends Controller
 
         $data = $request->all();
 
+        // add user to database
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -61,14 +66,5 @@ class UserController extends Controller
 
         return redirect('/')->with('succes', 'Sikeres regisztráció');
 
-    }
-
-    public function users(){
-
-        if(Auth::check()){
-            return view('users');
-        }
-
-        return redirect('Nincs hozzáférésed az odalhoz!');
     }
 }
