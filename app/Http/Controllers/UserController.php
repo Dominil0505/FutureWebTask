@@ -32,10 +32,10 @@ class UserController extends Controller
 
         // handle login
         if(Auth::attempt($credentials)){
-            return redirect()->intended('users')->withSucces('Sikeres bejelentkezés!');
+            return redirect()->intended('users')->with('Sikeres bejelentkezés!');
         }
 
-        return redirect("login")->with('succes' , 'Sikertelen bejelenkezés! Hibás bejelentkezési adatokat adtál meg.');
+        return redirect("login")->with('error' , 'Sikertelen bejelenkezés! Hibás bejelentkezési adatokat adtál meg.');
     }
 
     // handle user logout

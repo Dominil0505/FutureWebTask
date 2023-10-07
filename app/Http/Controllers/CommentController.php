@@ -8,14 +8,15 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function index(){
+    public function index()
+    {
 
-        if(Auth::check()){
+        if (Auth::check()) {
             $comments = Comment::all();
 
             return view('comments', ['allComments' => $comments]);
         }
 
-        return redirect('accessdenied');
+        return redirect("/")->withErrors('error', 'Valami hiba');
     }
 }

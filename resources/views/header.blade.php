@@ -15,11 +15,11 @@
                         <a class="nav-link" href="posts">Saját posztok</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="comments">Kommentek</a>
+                        <a class="nav-link" href="{{ url('comments') }}">Kommentek</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
+                <ul class="navbar-nav me-5">
+                    <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle" href="#"
                             data-bs-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu">

@@ -1,27 +1,15 @@
 @extends('layout')
 @section('content')
-    <div class="p-4 mb-5 mt-5 text-white rounded-bg">
+    <div class="p-2 mb-3 mt-2">
         <h1> Felhasználók </h1>
-        <table class="table text-white">
-            <thead>
-                <tr>
-                    <th>Név</th>
-                    <th>Posztok száma</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($allUsers as $user)
-                    <tr>
-                        <td>
-                            <a href="" class="text-white">{{ $user->name }}</a>
-                        </td>
-
-                        <td>
-                            <span class="badge bg-primary rounded-pill">2</span>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
+
+        @foreach ($allUsers as $user)
+            <div class="card mb-3">
+                <div class="card-body">
+                   <a href="users/post/{{ $user->name }}">{{ $user->name }}</a>
+                </div>
+            </div>
+        @endforeach
+
 @endsection

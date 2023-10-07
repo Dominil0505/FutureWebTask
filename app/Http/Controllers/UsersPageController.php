@@ -15,6 +15,6 @@ class UsersPageController extends Controller
             return view('users', ['allUsers' => $users]);
         }
 
-        return redirect('Nincs hozzáférésed az odalhoz!');
+        return redirect("/")->with('error' , 'Valami hiba');
     }
 }
