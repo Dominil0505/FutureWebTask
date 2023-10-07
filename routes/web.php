@@ -20,23 +20,36 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [UserController::class, 'login']); // register page
 
+/**
+ * User Function routes
+ */
 Route::get('register', [UserController::class, 'register']); // login page
 
 Route::post('postLogin', [UserController::class, 'postLogin']); // post login request
 Route::post('postRegister', [UserController::class, 'postRegister']); //post register request
-
 Route::get('logout', [UserController::class, 'logout']); // logout request
 
+/**
+ * User Page function routes
+ */
 Route::get('users', [UsersPageController::class, 'index']); // users page
 
+/**
+ * Posts function routes
+ */
 Route::get('posts', [PostController::class, 'index']); // posts page
-Route::get('createPost', [ PostController::class, 'createPage']); //post create page
-Route::post('createPost', [PostController::class, 'create']); // create post
+Route::get('createPost', [ PostController::class, 'createPostPage']); //post create page
+Route::post('createPost', [PostController::class, 'createPost']); // create post
 Route::get('users/post/{username}', [PostController::class, 'getUserPost']);
-//Route::get('{post_title}', [PostController::class, '']);
+Route::get('posts/{post_title}', [PostController::class, 'showPostWithComments']);
 
-
+/**
+ * Comments function routes
+*/
 Route::get('comments', [CommentController::class, 'index']); // comments page
+Route::get('createComment', [CommentController::class, 'createCommentPage']); // create comment page
+Route::post('createCommentPost',[CommentController::class, 'createComment']); // create comment
+Route::get('comments/delete/{id}', [CommentController::class, 'deleteComment']); // delete comment
 
 // Route::get('accessdenied', function(){
 //     return view('accesssdenied');

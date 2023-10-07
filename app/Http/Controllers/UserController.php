@@ -35,7 +35,7 @@ class UserController extends Controller
             return redirect()->intended('users')->with('Sikeres bejelentkezés!');
         }
 
-        return redirect("login")->with('error' , 'Sikertelen bejelenkezés! Hibás bejelentkezési adatokat adtál meg.');
+        return redirect("login")->with('error' , 'Sikertelen bejelenkezés! Hibás bejelentkezési adatokat adtál meg vagy nincs ilyen felhasználó.');
     }
 
     // handle user logout
@@ -43,7 +43,7 @@ class UserController extends Controller
         Session::flush();
         Auth::logout();
 
-        return redirect('login');
+        return redirect('/');
     }
 
     // register post

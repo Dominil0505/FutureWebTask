@@ -25,15 +25,14 @@ class PostController extends Controller
 
     }
 
-
     // create page
-    public function createPage()
+    public function createPostPage()
     {
         return view('createPost');
     }
 
     // post create
-    public function create(Request $request)
+    public function createPost(Request $request)
     {
 
         $request->validate([
@@ -43,7 +42,7 @@ class PostController extends Controller
 
         $user_id = auth()->user()->id;
 
-        $post = Post::create([
+        Post::create([
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'user_id' => $user_id
@@ -66,5 +65,9 @@ class PostController extends Controller
         }
 
         return redirect("/")->with('error' , 'Valami hiba');
+    }
+
+    public function showPostWithComments(){
+
     }
 }
