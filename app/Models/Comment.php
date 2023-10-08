@@ -9,7 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comment extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $primaryKey = 'comment_id';
+
     protected $fillable = [
+        'comment_id',
         'content',
         'post_id',
         'user_id',

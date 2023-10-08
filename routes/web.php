@@ -49,7 +49,9 @@ Route::get('posts/{post_title}', [PostController::class, 'showPostWithComments']
 Route::get('comments', [CommentController::class, 'index']); // comments page
 Route::get('createComment', [CommentController::class, 'createCommentPage']); // create comment page
 Route::post('createCommentPost',[CommentController::class, 'createComment']); // create comment
-Route::get('comments/delete/{id}', [CommentController::class, 'deleteComment']); // delete comment
+Route::get('comments/delete/{comment_id}', [CommentController::class, 'deleteComment']); // delete comment
+Route::get('comments/edit/{comment_id}', [CommentController::class, 'editCommentPage']); // edit comment page
+Route::post('comments/edit/{comment_id}', [CommentController::class, 'updateComment']);
 
 // Route::get('accessdenied', function(){
 //     return view('accesssdenied');

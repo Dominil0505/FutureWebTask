@@ -58,10 +58,9 @@ class CommentController extends Controller
         return redirect('createComment')->with('success', 'Komment sikeresen létrehozva!');
     }
 
-    public function deleteComment($id){
+    public function deleteComment($comment_id){
 
-        // HIBA VAN!!!!
-        $comment = Comment::find($id);
+        $comment = Comment::where('comment_id',$comment_id)->first();
 
         if (!$comment) {
             return redirect('comments')->with('error', 'A rekord nem található.');
@@ -72,5 +71,41 @@ class CommentController extends Controller
 
         return redirect('comments')->with('delete', 'A komment törölve lett.');
 
+    }
+
+    // edit comment page
+    public function editCommentPage($comment_id){
+        if (Auth::check()) {
+            $comment = Comment::find($comment_id);
+
+            return view('editComment', ['comment' => $comment]);
+        }
+
+        return redirect("/")->withErrors('error', 'Valami hiba');
+    }
+
+    // comment edit
+    public function updateComment(Request $request, $comment_id){
+        if(Auth::check()){
+            $comment = Comment::find($comment_id);
+
+            if(!$comment){
+                return redirect()->back()->with('error', 'A komment nem található.');
+            }
+
+            if (auth()->user()->id !== $comment->user_id) {
+                return redirect()->back()->with('error', 'Nincs engedélyed a komment frissítéséhez.');
+            }
+
+            $request->validate([
+                'content' => 'required|string',
+            ]);
+
+            $comment->content = $request->input('content');
+            $comment->save();
+
+            return view('editComment')->with('comment', $comment)->with('updated', 'Komment sikeresen frissítve.');
+        }
+        return redirect("/")->withErrors('error', 'Valami hiba');
     }
 }

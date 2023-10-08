@@ -15,7 +15,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{ $comment->user->name }}</h6>
                             <p class="card-text">{{ $comment->content }}</p>
                             <p class="card-text">Létrehozva: {{ $comment->created_at }}</p>
-                            <a href="#" class="btn btn-primary">Szerkesztés</a>
+                            <a href="comments/edit/{{ $comment->comment_id }}" class="btn btn-primary">Szerkesztés</a>
                             <a href="comments/delete/{{ $comment->comment_id }}" class="btn btn-danger">Törlés</a>
                         </div>
                     </div>
