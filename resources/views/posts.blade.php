@@ -1,20 +1,26 @@
 @extends('layout')
 @section('content')
-    <div class="p-2 mb-3 mt-2">
-        <h1> Posztjaim </h1>
+    <div class="mb-3">
+        <h1 class="header text-white"> Posztjaim </h1>
+    </div>
+    <div class="m-3">
         <a href="createPost" class="btn btn-success mb-3">Poszt hozzáadása</a>
     </div>
 
-    <div class="list-group">
-        @foreach ($allOurPost as $post)
-            <a href="posts/{{ $post->title }}" class="list-group-item list-group-item-action" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-
-                    <h5 class="mb-1">{{ $post->title }}</h5>
-                    <small>3 nap</small>
+    <div class="container py-2">
+        <div class="row justify-content-center align-items-center">
+            @foreach ($allOurPost as $post)
+                <div class="col-md-10 col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="posts/{{ $post->title }}" class="link-dark">{{ $post->title }}</a></h5>
+                            <a href="posts/edit/{{ $post->post_id }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                            <a href="posts/delete/{{ $post->post_id }}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
                 </div>
-            </a>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 
 @endsection

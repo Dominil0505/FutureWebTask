@@ -5,6 +5,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersPageController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,16 +24,19 @@ Route::get('/', [UserController::class, 'login']); // register page
 /**
  * User Function routes
  */
-Route::get('register', [UserController::class, 'register']); // login page
-
+Route::get('register', [UserController::class, 'register']); // register page
 Route::post('postLogin', [UserController::class, 'postLogin']); // post login request
 Route::post('postRegister', [UserController::class, 'postRegister']); //post register request
 Route::get('logout', [UserController::class, 'logout']); // logout request
+Route::get('account/verify/{token}', [UserController::class, 'verifyAccount']); // email verification request
 
 /**
  * User Page function routes
  */
-Route::get('users', [UsersPageController::class, 'index']); // users page
+Route::get('users', [UsersPageController::class, 'index'])->middleware(['auth', 'verify_email']); // users page
+Route::get('users/post/{post_title}', [UsersPageController::class, 'showUserPostWithComments']);
+Route::get('users/post/{username}/{post_title}', [UsersPageController::class, 'showAllCommentToUserPost']);
+Route::get('users/post/{username}', [PostController::class, 'getUserPost']); // show user Posts
 
 /**
  * Posts function routes
@@ -40,7 +44,6 @@ Route::get('users', [UsersPageController::class, 'index']); // users page
 Route::get('posts', [PostController::class, 'index']); // posts page
 Route::get('createPost', [ PostController::class, 'createPostPage']); //post create page
 Route::post('createPost', [PostController::class, 'createPost']); // create post
-Route::get('users/post/{username}', [PostController::class, 'getUserPost']);
 Route::get('posts/{post_title}', [PostController::class, 'showPostWithComments']);
 
 /**
@@ -51,7 +54,8 @@ Route::get('createComment', [CommentController::class, 'createCommentPage']); //
 Route::post('createCommentPost',[CommentController::class, 'createComment']); // create comment
 Route::get('comments/delete/{comment_id}', [CommentController::class, 'deleteComment']); // delete comment
 Route::get('comments/edit/{comment_id}', [CommentController::class, 'editCommentPage']); // edit comment page
-Route::post('comments/edit/{comment_id}', [CommentController::class, 'updateComment']);
+Route::post('comments/edit/{comment_id}', [CommentController::class, 'updateComment']); // update comment post request
+
 
 // Route::get('accessdenied', function(){
 //     return view('accesssdenied');

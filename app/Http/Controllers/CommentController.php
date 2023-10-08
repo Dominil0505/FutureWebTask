@@ -104,7 +104,7 @@ class CommentController extends Controller
             $comment->content = $request->input('content');
             $comment->save();
 
-            return view('editComment')->with('comment', $comment)->with('updated', 'Komment sikeresen frissítve.');
+            return redirect('comments/edit/'.$comment_id)->with('comment', $comment)->with('updated', 'Komment sikeresen frissítve.');
         }
         return redirect("/")->withErrors('error', 'Valami hiba');
     }

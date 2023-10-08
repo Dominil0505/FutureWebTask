@@ -3,7 +3,7 @@
     <div class="p-2 mb-3 mt-2">
         <h1> {{ $user->name }} Posztjai</h1>
     </div>
-    @foreach ($ourPost as $post)
+    @foreach ($ownPost as $post)
         <div class="list-group">
             <a href="{{ $post->title }}" class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">

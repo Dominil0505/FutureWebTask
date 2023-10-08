@@ -9,10 +9,10 @@
             @auth
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="users">Felhasználók</a>
+                        <a class="nav-link" href="{{ url('users') }}">Felhasználók</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="posts">Saját posztok</a>
+                        <a class="nav-link" href="{{ url('posts') }}">Saját posztok</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('comments') }}">Kommentek</a>

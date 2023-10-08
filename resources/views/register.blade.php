@@ -27,12 +27,17 @@
                         @endif
                     </div>
                     <div class="mb-3">
-                        <label class="form-check-label" for="">Van már felhasználód? <a href="/login"
+                        <label class="form-check-label" for="">Van már felhasználód? <a href="/"
                                 class="link-primary"> Jelentkezz be! </a></label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Regisztráció</button>
+                    <button type="submit" class="btn btn-primary mb-3">Regisztráció</button>
                 </form>
             </div>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
     </div>
 @endsection

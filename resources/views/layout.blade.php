@@ -16,6 +16,10 @@
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
+    <!-- Font-awesome link -->
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a250413ada.js" crossorigin="anonymous"></script>
+
 <body>
     {{ View::make('header') }}
     @yield('content')

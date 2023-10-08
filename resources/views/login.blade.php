@@ -15,7 +15,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Bejelentkezés</button>
                     <div class="mb-3">
-                        <label class="form-check-label">Nincs még felhasználód? <a href="/"
+                        <label class="form-check-label">Nincs még felhasználód? <a href="register"
                                 class="link-primary"> Regisztrálj </a></label>
                     </div>
                 </form>
@@ -23,6 +23,11 @@
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
+                @endif
+                @if(session('email'))
+                <div class="alert alert-success">
+                    {{ session('email') }}
+                </div>
                 @endif
             </div>
         </div>
