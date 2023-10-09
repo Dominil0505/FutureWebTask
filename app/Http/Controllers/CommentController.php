@@ -84,7 +84,7 @@ class CommentController extends Controller
         return redirect("/")->withErrors('error', 'Valami hiba');
     }
 
-    // comment edit
+    // comment edit post request
     public function updateComment(Request $request, $comment_id){
         if(Auth::check()){
             $comment = Comment::find($comment_id);

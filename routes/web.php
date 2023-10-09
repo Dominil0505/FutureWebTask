@@ -45,6 +45,9 @@ Route::get('posts', [PostController::class, 'index']); // posts page
 Route::get('createPost', [ PostController::class, 'createPostPage']); //post create page
 Route::post('createPost', [PostController::class, 'createPost']); // create post
 Route::get('posts/{post_title}', [PostController::class, 'showPostWithComments']);
+Route::get('posts/delete/{post_id}', [PostController::class, 'deletePost']); // delete post in posts page
+Route::get('posts/edit/{post_id}', [PostController::class, 'editPost']); // edit post in posts page
+Route::post('posts/edit/{post_id}', [PostController::class, 'updatePost']); // update post in posts page
 
 /**
  * Comments function routes
@@ -52,7 +55,7 @@ Route::get('posts/{post_title}', [PostController::class, 'showPostWithComments']
 Route::get('comments', [CommentController::class, 'index']); // comments page
 Route::get('createComment', [CommentController::class, 'createCommentPage']); // create comment page
 Route::post('createCommentPost',[CommentController::class, 'createComment']); // create comment
-Route::get('comments/delete/{comment_id}', [CommentController::class, 'deleteComment']); // delete comment
+Route::get('comments/delete/{comment_id}', [CommentController::class, 'deleteComment']); // delete comment in comment page
 Route::get('comments/edit/{comment_id}', [CommentController::class, 'editCommentPage']); // edit comment page
 Route::post('comments/edit/{comment_id}', [CommentController::class, 'updateComment']); // update comment post request
 
