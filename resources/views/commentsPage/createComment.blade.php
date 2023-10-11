@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <div class="p-3 mb-5 ">
         <div class="col-sm-4">

@@ -21,9 +21,9 @@
     <script src="https://kit.fontawesome.com/a250413ada.js" crossorigin="anonymous"></script>
 
 <body>
-    {{ View::make('header') }}
+    {{ View::make('layout.header') }}
     @yield('content')
-    {{ View::make('footer') }}
+    {{ View::make('layout.footer') }}
 </body>
 
 </html>

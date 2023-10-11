@@ -10,46 +10,47 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersPageController extends Controller
 {
-    public function index(){
-
-        if(Auth::check()){
-            $users = User::all();
-            return view('users', ['allUsers' => $users]);
+    // check Authentication
+    protected function checkAuthenticationAndRedirect()
+    {
+        if (!Auth::check()) {
+            return redirect("/")->withErrors('error', 'Valami hiba');
         }
-
-        return redirect("/")->with('error' , 'Valami hiba');
     }
 
-    public function showUserPostWithComments($username){
-        if (Auth::check()) {
+    public function index()
+    {
+        $this->checkAuthenticationAndRedirect();
 
-            $user = User::where('name', $username)->first();
-
-            if ($user) {
-                $posts = Post::where('user_id', $user->id)->get();
-
-                return view('postWithComments', ['user' => $user,'ownPost' => $posts]);
-            }
-        }
-
-        return redirect("/")->with('error' , 'Valami hiba');
+        $users = User::all();
+        return view('usersPage.users', ['allUsers' => $users]);
     }
 
-    public function showAllCommentToUserPost($username, $post_title){
-        if (Auth::check()) {
-            $post = Post::where('title', $post_title)->first();
+    public function showUserPostWithComments($username)
+    {
+        $this->checkAuthenticationAndRedirect();
 
-            if (!$post) {
-                return redirect("/users/post")->with('empty', 'A poszt nem található.');
-            }
+        $user = User::where('name', $username)->first();
 
-            $post_id = $post->post_id;
-            $comments = Comment::where('post_id', $post_id)->get();
+        if ($user) {
+            $posts = Post::where('user_id', $user->id)->get();
 
-            return view('allCommentToUserPost', ['post' => $post, 'comments' => $comments]);
+            return view('usersPage.postWithComments', ['user' => $user, 'ownPost' => $posts]);
         }
-
-        return redirect("/")->with('error' , 'Valami hiba');
     }
 
+    public function showAllCommentToUserPost($username, $post_title)
+    {
+        $this->checkAuthenticationAndRedirect();
+
+        $post = Post::where('title', $post_title)->first();
+
+        if (!$post) {
+            return redirect("/users/post")->with('empty', 'A poszt nem található.');
+        }
+
+        $comments = Comment::where('post_id', $post->post_id)->get();
+
+        return view('usersPage.allCommentToUserPost', ['post' => $post, 'comments' => $comments]);
+    }
 }

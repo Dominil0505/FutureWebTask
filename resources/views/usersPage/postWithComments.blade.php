@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <h1 class="header text-white"> {{ $user->name }} Posztjai</h1>
 

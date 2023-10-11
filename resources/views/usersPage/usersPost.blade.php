@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <div class="p-2 mb-3 mt-2">
         <h1> {{ $user->name }} Posztjai</h1>

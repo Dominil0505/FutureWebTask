@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <div class="mb-3">
         <h1 class="header text-white"> Felhasználók </h1>
@@ -7,7 +7,7 @@
     <div class="container py-2">
         <div class="row justify-content-center align-items-center ">
             @foreach ($allUsers as $user)
-                <div class="col-md-10 col-xl-4">
+                <div class="col-md-10 col-xl-4 mb-3">
                     <div class="card" style="border-radius: 15px;">
                         <div class="card-body text-center">
                             <div class="mt-3 mb-4">

@@ -12,14 +12,15 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+
     //login page
     function login(){
-        return view('login');
+        return view('user.login');
     }
 
     // register page
     function register(){
-        return view('register');
+        return view('user.register');
     }
 
     // login post
@@ -75,7 +76,7 @@ class UserController extends Controller
             'remember_token' => $token
         ]);
 
-        Mail::send('emailVerification', ['token' => $token], function($message) use($request){
+        Mail::send('email.emailVerification', ['token' => $token], function($message) use($request){
             $message->to($request->email);
             $message->subject('Email Verification Mail');
         });

@@ -63,3 +63,6 @@ Route::post('comments/edit/{comment_id}', [CommentController::class, 'updateComm
 // Route::get('accessdenied', function(){
 //     return view('accesssdenied');
 // });
+
+
+Route::get('commentMail', [CommentController::class, 'mailcomment']);

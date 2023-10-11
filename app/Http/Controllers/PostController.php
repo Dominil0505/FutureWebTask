@@ -10,143 +10,133 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    // check Authentication
+    protected function checkAuthenticationAndRedirect()
+    {
+        if (!Auth::check()) {
+            return redirect("/")->withErrors('error', 'Valami hiba');
+        }
+    }
+
+    // get posts
+    protected function getPost($post_id)
+    {
+        $post = Post::find($post_id);
+
+        if (!$post) {
+            return redirect('posts')->with('error', 'A rekord nem található.');
+        }
+
+        return $post;
+    }
 
     // index list all posts
     public function index()
     {
+        $this->checkAuthenticationAndRedirect();
 
-        if (Auth::check()) {
-            $user = Auth::user();
-            $posts = Post::where('user_id', $user->id)->get();
 
-            return view('posts', ['allOurPost' => $posts]);
-        }
+        $user = Auth::user();
+        $posts = Post::where('user_id', $user->id)->get();
 
-        return redirect("/")->with('error', 'Valami hiba');
+        return view('postsPage.posts', ['allOurPost' => $posts]);
     }
 
     // create page
     public function createPostPage()
     {
-        if (Auth::check()) {
-            return view('createPost');
-        }
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
+        $this->checkAuthenticationAndRedirect();
+        return view('postsPage.createPost');
     }
 
     // post create
     public function createPost(Request $request)
     {
+        $this->checkAuthenticationAndRedirect();
 
-        if (Auth::check()) {
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string'
-            ]);
 
-            $user_id = auth()->user()->id;
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string'
+        ]);
 
-            Post::create([
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'user_id' => $user_id
-            ]);
+        $user_id = auth()->user()->id;
 
-            return redirect('createPost')->with('success', 'Sikeres posztolás!');
-        }
+        Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+            'user_id' => $user_id
+        ]);
 
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
+        return redirect('createPost')->with('success', 'Sikeres posztolás!');
     }
 
     public function getUserPost($user_name)
     {
-        if (Auth::check()) {
-            // get username
-            $user = User::where('name', $user_name)->first();
+        $this->checkAuthenticationAndRedirect();
+        $user = User::where('name', $user_name)->first();
 
-            if ($user) {
-                $posts = Post::where('user_id', $user->id)->get();
+        if ($user) {
+            $posts = Post::where('user_id', $user->id)->get();
 
-                return view('usersPost', ['user' => $user, 'ownPost' => $posts]);
-            }
+            return view('usersPost', ['user' => $user, 'ownPost' => $posts]);
         }
-
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
     }
 
     public function showPostWithComments($post_title)
     {
-        if (Auth::check()) {
-            $post = Post::where('post_title', $post_title);
+        $this->checkAuthenticationAndRedirect();
 
-            if (!$post) {
-                return redirect("/users/post")->with('empty', 'A poszt nem található.');
-            }
+        $post = Post::where('title', $post_title)->first();
 
-            $post_id = $post->post_id;
-            $comments = Comment::where('post_id', $post_id)->get();
-
-            return view('ownPostWithComment', ['posts' => $post, 'comments' => $comments]);
+        if (!$post) {
+            return redirect("/users/post")->with('empty', 'A poszt nem található.');
         }
 
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
+        $comments = Comment::where('post_id', $post->post_id)->get();
+
+        return view('postsPage.ownPostWithComment', ['posts' => $post, 'comments' => $comments]);
     }
 
     public function deletePost($post_id)
     {
-        if (Auth::check()) {
-            $post = Post::where('post_id', $post_id);
+        $this->checkAuthenticationAndRedirect();
 
-            if (!$post) {
-                return redirect("/users/post")->with('empty', 'A poszt nem található.');
-            }
+        $post = $this->getPost($post_id);
+        $post->delete();
 
-            $post->delete();
-
-            return redirect("/posts")->with('success', 'Sikeres törlés!');
-        }
-
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
+        return redirect("/posts")->with('success', 'Sikeres törlés!');
     }
 
     // edit post page
-    public function editPost($post_id){
-        if(Auth::check()){
-            $post = Post::where('post_id', $post_id)->first();
+    public function editPost($post_id)
+    {
+        $this->checkAuthenticationAndRedirect();
+        $post = $this->getPost($post_id);
 
-            if (!$post) {
-                return redirect("/users/post")->with('empty', 'A poszt nem található.');
-            }
-
-            return view('editPost', ['post' => $post]);
-        }
-        return redirect("/")->with('error', 'Nincs hozzáférésed az oldalhoz');
+        return view('postsPage.editPost', ['post' => $post]);
     }
 
+    //##################
+    // Itt valami hiba van még!!!
+    //##################
     // edit post request
-    public function updatePost(Request $request, $post_id){
-        if(Auth::check()){
-            $post = Post::find($post_id);
+    public function updatePost(Request $request, $post_id)
+    {
+        $user = auth()->user();
+        $post = $this->getPost($post_id);
 
-            if(!$post){
-                return redirect()->back()->with('error', 'A komment nem található.');
-            }
-
-            if (auth()->user()->id !== $post->user_id) {
-                return redirect()->back()->with('error', 'Nincs engedélyed a komment frissítéséhez.');
-            }
-
-            $request->validate([
-                'post_title' => 'required|string',
-                'content' => 'required|string',
-            ]);
-
-            $post->title = $request->input('post_title');
-            $post->content = $request->input('content');
-            $post->save();
-
-            return redirect('posts/edit/'.$post_id)->with('post', $post)->with('updated', 'Poszt frissitve sikeresen frissítve.');
+        if ($user->id !== $post->user_id) {
+            return redirect('/')->withErrors('error', 'Nincs engedélyed a poszt frissítéséhez.');
         }
-        return redirect("/")->withErrors('error', 'Valami hiba');
+
+        $validatedData = $request->validate([
+            'post_title' => 'string',
+            'content' => 'string',
+        ]);
+
+        $post->update($validatedData);
+
+        return redirect('posts/edit/' . $post_id)->with('posts', $post)->with('updated', 'Poszt sikeresen frissítve.');
     }
 }

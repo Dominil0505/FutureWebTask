@@ -1,22 +1,21 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-sm-5">
                 <div class="card mb-3 mt-3">
-                    <div class="card-header bg-primary text-white">Komment Módosítása</div>
+                    <div class="card-header bg-primary text-white">Poszt Módosítása</div>
                     <div class="card-body">
-                        <form action="{{ $comment->comment_id }}" method="POST">
+                        <form action="{{ $post->post_id }}" method="POST">
                             @csrf
                             <div class="mb-3 mt-3">
-                                <label for="text" class="form-label">Kommenthez tartozó poszt</label>
-                                <input type="text" value="{{ $comment->post->title }}" class="form-control" readonly>
-                                <input type="text" value="{{ $comment->comment_id }}" id="comment_id" name="comment_id"
-                                    hidden>
+                                <label for="text" class="form-label">Poszt címe</label>
+                                <input type="text" value="{{ $post->title }}" class="form-control" id="post_title"
+                                    name="post_title">
                             </div>
                             <div class="mb-3">
-                                <label for="text" class="form-label">Komment tartalma</label>
-                                <textarea name="content" id="content" class="form-control">{{ $comment->content }}</textarea>
+                                <label for="text" class="form-label">Poszt tartalma</label>
+                                <input type="text" value="{{ $post->content }}" id="content" name="content" class="form-control">
                             </div>
                             <button type="submit" class="btn btn-primary">Változtatás</button>
                         </form>

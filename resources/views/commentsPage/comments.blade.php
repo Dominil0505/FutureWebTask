@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 @section('content')
     <div class="mb-3">
         <h1 class="header text-white"> Kommentek </h1>
@@ -12,7 +12,7 @@
         <div class="container py-2">
             <div class="row justify-content-center align-items-center">
                 @foreach ($comments as $comment)
-                    <div class="col-md-10 col-xl-4">
+                    <div class="col-md-10 col-xl-4 mb-3">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $comment->post->title }}</h5>
